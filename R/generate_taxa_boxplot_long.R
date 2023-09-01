@@ -278,7 +278,8 @@ generate_taxa_boxplot_long <-
         dplyr::group_by_at(vars(sample,!!sym(feature.level))) %>%
         dplyr::summarise(value = sum(value)) %>%
         tidyr::spread(key = "sample", value = "value")
-
+      
+      print(otu_tax_agg)
       compute_function <- function(top.k.func) {
         if (is.function(top.k.func)) {
           results <-
@@ -307,6 +308,7 @@ generate_taxa_boxplot_long <-
         features.plot <- names(sort(compute_function(top.k.func), decreasing = TRUE)[1:top.k.plot])
       }
 
+      print(otu_tax_agg)
       otu_tax_agg_numeric <- otu_tax_agg %>%
         tidyr::gather(key = "sample", value = "value",-one_of(feature.level)) %>%
         dplyr::mutate(value = as.numeric(value))
